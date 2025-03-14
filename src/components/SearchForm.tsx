@@ -24,7 +24,7 @@ export default function SearchForm({ initialQuery, onSearch }: Props) {
         <button
           type="button"
           onClick={() => onSearch(query)}
-          className="ml-0.5 rounded bg-rose-400 px-[4rem] py-4 text-white uppercase outline-0 hover:cursor-pointer hover:bg-rose-500 focus-visible:outline-0"
+          className="ml-0.5 rounded bg-red-400 px-[4rem] py-4 text-white uppercase outline-0 hover:cursor-pointer hover:bg-red-500 focus-visible:outline-0"
         >
           Search
         </button>

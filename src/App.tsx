@@ -15,7 +15,7 @@ function App() {
           onSearch={(query) => console.log(query)}
         />
       </div>
-      <div className="mb-3">
+      <div className="mb-3 bg-gray-700">
         <GenreSelect
           genres={["All", "Documentary", "Comedy", "Horror", "Crime"]}
           selectedGenre="All"
