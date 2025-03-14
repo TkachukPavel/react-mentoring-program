@@ -1,6 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
+    "module": "ES2015",
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "types": ["node", "jest", "@testing-library/jest-dom"]

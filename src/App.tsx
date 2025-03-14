@@ -2,6 +2,7 @@ import "./App.css"
 import Counter from "./components/Counter"
 import GenreSelect from "./components/GenreSelect"
 import SearchForm from "./components/SearchForm"
+import { genres } from "./data/genres"
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       </div>
       <div className="mb-3 bg-gray-700">
         <GenreSelect
-          genres={["All", "Documentary", "Comedy", "Horror", "Crime"]}
+          genres={genres}
           selectedGenre="All"
           onSelect={(genre) => console.log(genre)}
         ></GenreSelect>
