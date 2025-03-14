@@ -31,7 +31,7 @@ const imageUrl =
 
 export const Default: Story = {
   args: {
-    imageUrl: imageUrl,
+    imageUrl,
     movieName: "Pulp Fiction",
     releaseYear: 1994,
     genres: ["Crime", "Drama"],
@@ -40,7 +40,7 @@ export const Default: Story = {
 
 export const WithLongTitle: Story = {
   args: {
-    imageUrl: imageUrl,
+    imageUrl,
     movieName: "The Shawshank Redemption: Extended Director's Cut",
     releaseYear: 1994,
     genres: ["Drama", "Crime"],

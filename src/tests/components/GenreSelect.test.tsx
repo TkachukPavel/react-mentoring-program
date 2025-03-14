@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
-import GenreSelect from "../components/GenreSelect"
-import { Genre } from "../types/genre"
+import GenreSelect from "../../components/GenreSelect"
+import { Genre } from "../../types/genre"
 import userEvent, { UserEvent } from "@testing-library/user-event"
 describe("GenreSelect", () => {
   let user: UserEvent
