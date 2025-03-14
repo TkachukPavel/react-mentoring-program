@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Genre } from "../types/genre"
+import { Genre } from "@/types/genre"
 import clsx from "clsx"
 
 type Props = {

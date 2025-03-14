@@ -1,4 +1,4 @@
-import formatDuration from "../../utils/formatDuration"
+import formatDuration from "@/utils/formatDuration"
 
 describe("formatDuration", () => {
   test("should format duration of 0 minutes", () => {

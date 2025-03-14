@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import GenreSelect from "../components/GenreSelect"
-import { genres } from "../data/genres"
+import GenreSelect from "@/components/GenreSelect"
+import { genres } from "@/data/genres"
 import { fn } from "@storybook/test"
-
-// filepath: /Users/paveltkachuk/react-mentoring-program/src/stories/GenreSelect.stories.ts
 
 const meta: Meta<typeof GenreSelect> = {
   title: "Components/GenreSelect",
