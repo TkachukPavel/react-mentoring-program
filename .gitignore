@@ -26,3 +26,5 @@ dist-ssr
 .prettierrc
 
 coverage
+
+*storybook.log

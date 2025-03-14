@@ -21,12 +21,12 @@ export default function GenreSelect({
   }
   return (
     <>
-      <div className="flex flex-row border-b-2">
+      <div className="flex flex-row border-b-2 border-gray-700">
         {genres.map((genre) => (
           <button
             type="button"
             className={clsx(
-              "mr-2 -mb-[2px] cursor-pointer border-b-2 border-b-transparent text-sm text-white uppercase last:mr-0 hover:border-rose-400",
+              "mr-8 -mb-[2px] cursor-pointer border-b-2 border-b-transparent px-1 pb-4 text-sm text-white uppercase last:mr-0 hover:border-rose-400",
               {
                 "border-rose-400!": genre === currentGenre,
               },
