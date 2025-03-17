@@ -8,11 +8,7 @@ type Props = {
   onSelect: (genre: Genre) => void
 }
 
-export default function GenreSelect({
-  selectedGenre,
-  onSelect,
-  genres,
-}: Props) {
+export const GenreSelect = ({ selectedGenre, onSelect, genres }: Props) => {
   const [currentGenre, setCurrentGenre] = useState<Genre>(selectedGenre)
 
   const handleSelect = (genre: Genre) => {

@@ -5,7 +5,7 @@ type Props = {
   onSearch: (query: string) => void
 }
 
-export default function SearchForm({ initialQuery, onSearch }: Props) {
+export const SearchForm = ({ initialQuery, onSearch }: Props) => {
   const [query, setQuery] = useState(initialQuery)
 
   return (

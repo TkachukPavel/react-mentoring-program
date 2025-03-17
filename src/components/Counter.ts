@@ -5,7 +5,7 @@ type Props = {
   initialValue: number
 }
 
-export default class Counter extends React.Component<Props, { value: number }> {
+export class Counter extends React.Component<Props, { value: number }> {
   constructor(props: Props) {
     super(props)
     this.state = { value: props.initialValue }

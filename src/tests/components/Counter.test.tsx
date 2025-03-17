@@ -1,4 +1,4 @@
-import Counter from "@/components/Counter"
+import { Counter } from "@/components/Counter"
 import { render, screen } from "@testing-library/react"
 import userEvent, { UserEvent } from "@testing-library/user-event"
 

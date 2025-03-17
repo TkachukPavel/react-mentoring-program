@@ -1,6 +1,6 @@
+import { Counter } from "@/components/Counter"
 import type { Meta, StoryObj } from "@storybook/react"
 
-import Counter from "@/components/Counter"
 const meta = {
   title: "Components/Counter",
   parameters: {

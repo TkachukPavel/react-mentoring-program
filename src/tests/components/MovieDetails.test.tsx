@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
-import MovieDetails from "@/components/MovieDetails"
 import formatDuration from "@/utils/formatDuration"
+import { MovieDetails } from "@/components/MovieDetails"
 
 describe("MovieDetails", () => {
   const mockProps = {

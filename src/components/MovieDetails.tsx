@@ -10,7 +10,7 @@ type Props = {
   genres: string[]
 }
 
-export default function MovieDetails({
+export const MovieDetails = ({
   imageUrl,
   movieName,
   releaseYear,
@@ -18,7 +18,7 @@ export default function MovieDetails({
   duration,
   description,
   genres,
-}: Props) {
+}: Props) => {
   return (
     <div className="flex flex-row font-light text-white">
       <img

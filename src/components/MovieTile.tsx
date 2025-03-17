@@ -7,13 +7,13 @@ type Props = {
   onClick: () => void
 }
 
-export default function MovieTile({
+export const MovieTile = ({
   imageUrl,
   movieName,
   releaseYear,
   genres,
   onClick,
-}: Props) {
+}: Props) => {
   return (
     <div
       className="flex w-64 flex-col items-center"

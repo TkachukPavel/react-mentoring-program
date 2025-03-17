@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import MovieTile from "@/components/MovieTile"
+import { MovieTile } from "@/components/MovieTile"
 import { fn } from "@storybook/test"
 
 const meta: Meta<typeof MovieTile> = {

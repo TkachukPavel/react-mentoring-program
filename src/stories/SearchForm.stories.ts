@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import SearchForm from "@/components/SearchForm"
+import { SearchForm } from "@/components/SearchForm"
 import { fn } from "@storybook/test"
 
 const meta = {

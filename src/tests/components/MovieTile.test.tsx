@@ -1,6 +1,6 @@
 import userEvent, { UserEvent } from "@testing-library/user-event"
-import MovieTile from "@/components/MovieTile"
 import { render, screen } from "@testing-library/react"
+import { MovieTile } from "@/components/MovieTile"
 
 describe("MovieTile", () => {
   let user: UserEvent
