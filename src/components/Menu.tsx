@@ -21,13 +21,13 @@ export const Menu = ({ menuItems, className }: Props) => {
         {!isOpen ? (
           <button
             type="button"
-            className="cursor-pointer rounded-full bg-gray-600 p-2 text-[10px] text-white"
+            className="cursor-pointer rounded-full bg-neutral-800 p-2 text-[10px] text-white"
             onClick={() => setIsOpen(true)}
           >
             <FaEllipsisV title="open menu" />
           </button>
         ) : (
-          <div className="absolute top-0 right-0 w-38 rounded bg-gray-600 py-2 text-white">
+          <div className="absolute top-0 right-0 w-38 rounded bg-neutral-800 py-2 text-white">
             <div className="flex justify-items-end">
               <button
                 type="button"

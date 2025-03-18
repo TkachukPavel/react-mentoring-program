@@ -16,7 +16,7 @@ export const GenreSelect = ({ selectedGenre, onSelect, genres }: Props) => {
     onSelect(genre)
   }
   return (
-    <div className="flex flex-row border-b-2 border-gray-700">
+    <div className="flex flex-row border-b-2 border-neutral-700">
       {genres.map((genre) => (
         <button
           type="button"

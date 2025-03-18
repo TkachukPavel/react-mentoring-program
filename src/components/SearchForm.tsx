@@ -11,7 +11,7 @@ export const SearchForm = ({ initialQuery, onSearch }: Props) => {
   return (
     <div className="flex flex-row">
       <input
-        className="mr-3 min-w-3xl rounded bg-gray-500 px-4 py-4 text-white opacity-50"
+        className="mr-3 min-w-3xl rounded bg-neutral-800 px-4 py-4 font-montserrat text-white opacity-50"
         aria-label="Search"
         type="text"
         placeholder="What do you want to watch?"

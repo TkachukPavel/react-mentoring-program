@@ -61,16 +61,16 @@ export const SortControl = ({ selection, onSelectionChange }: Props) => {
         {isOpen && (
           <ul
             role="listbox"
-            className="absolute right-0 mt-2 w-full list-none rounded! bg-gray-600 text-white"
+            className="absolute right-0 mt-2 w-full list-none rounded! bg-neutral-800 py-1 text-white"
           >
             <li
-              className="cursor-pointer rounded px-4 py-1 hover:bg-red-400"
+              className="cursor-pointer px-4 hover:bg-red-400"
               onClick={() => onOptionClick("Release Date")}
             >
               Release Date
             </li>
             <li
-              className="cursor-pointer rounded px-4 py-1 hover:bg-red-400"
+              className="cursor-pointer px-4 hover:bg-red-400"
               onClick={() => onOptionClick("Title")}
             >
               Title
