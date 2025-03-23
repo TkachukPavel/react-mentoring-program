@@ -99,4 +99,26 @@ describe("MovieForm", () => {
 
     expect(screen.getByLabelText(/runtime/i)).toHaveValue("")
   })
+
+  it("applies boundaries and formatting to the rating field", async () => {
+    render(<MovieForm mode="add" />)
+    const ratingInput = screen.getByLabelText(/rating/i)
+
+    await user.type(ratingInput, "12.3")
+    await user.click(document.body)
+
+    expect(ratingInput).toHaveValue("10")
+
+    await user.clear(ratingInput)
+    await user.type(ratingInput, "5.123")
+    await user.click(document.body)
+
+    expect(ratingInput).toHaveValue("5.1")
+
+    await user.clear(ratingInput)
+    await user.type(ratingInput, "a")
+    await user.click(document.body)
+
+    expect(ratingInput).toHaveValue("")
+  })
 })

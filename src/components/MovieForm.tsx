@@ -19,12 +19,11 @@ const formatRuntime = (v: string) => (v === "" ? "" : formatDuration(+v))
 
 export const MovieForm = ({ mode }: Props) => {
   const runtimeInputRef = useRef<HTMLInputElement>(null)
-  const ratingInputRef = useRef<HTMLInputElement>(null)
-
   useOnlyAllowPattern(runtimeInputRef, /^\d*$/)
   useFormattedInput(runtimeInputRef, formatRuntime)
 
-  useOnlyAllowPattern(ratingInputRef, /^(\d*)|(\d+\.\d+)$/)
+  const ratingInputRef = useRef<HTMLInputElement>(null)
+  useOnlyAllowPattern(ratingInputRef, /^((\d*)|(\d+\.\d*))$/)
   useKeepInputInRange(ratingInputRef, { max: 10, min: 0, fractionDigits: 1 })
 
   return (
