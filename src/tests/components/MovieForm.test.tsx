@@ -10,18 +10,8 @@ describe("MovieForm", () => {
     user = userEvent.setup()
   })
 
-  it("renders the form with 'add movie' title when mode is add", () => {
-    render(<MovieForm mode="add" />)
-    expect(screen.getByText(/add movie/i)).toBeInTheDocument()
-  })
-
-  it("renders the form with 'edit movie' title when mode is edit", () => {
-    render(<MovieForm mode="edit" />)
-    expect(screen.getByText(/edit movie/i)).toBeInTheDocument()
-  })
-
   it("renders all form fields with correct labels", () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     // Check for all the labels
     expect(screen.getByText(/title/i)).toBeInTheDocument()
@@ -34,7 +24,7 @@ describe("MovieForm", () => {
   })
 
   it("renders inputs with correct placeholders", () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     expect(screen.getByPlaceholderText("Select Date")).toBeInTheDocument()
     expect(screen.getByPlaceholderText("https://")).toBeInTheDocument()
@@ -43,7 +33,7 @@ describe("MovieForm", () => {
   })
 
   it("displays all genres in the dropdown", () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     // Test that each genre is available in the dropdown
     genres.forEach((genre) => {
@@ -52,7 +42,7 @@ describe("MovieForm", () => {
   })
 
   it("accepts input in the title field", async () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     const titleInput = document.getElementById("title") as HTMLInputElement
     await user.type(titleInput, "Test Movie Title")
@@ -61,7 +51,7 @@ describe("MovieForm", () => {
   })
 
   it("accepts input in the movie URL field", async () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     await user.type(
       screen.getByLabelText(/movie url/i),
@@ -74,7 +64,7 @@ describe("MovieForm", () => {
   })
 
   it("accepts input in the overview field", async () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     await user.type(
       screen.getByLabelText(/overview/i),
@@ -87,7 +77,7 @@ describe("MovieForm", () => {
   })
 
   it("formats runtime field", async () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
 
     await user.type(screen.getByLabelText(/runtime/i), "121")
     await user.click(document.body)
@@ -101,7 +91,7 @@ describe("MovieForm", () => {
   })
 
   it("applies boundaries and formatting to the rating field", async () => {
-    render(<MovieForm mode="add" />)
+    render(<MovieForm onSubmit={() => {}} />)
     const ratingInput = screen.getByLabelText(/rating/i)
 
     await user.type(ratingInput, "12.3")
@@ -120,5 +110,34 @@ describe("MovieForm", () => {
     await user.click(document.body)
 
     expect(ratingInput).toHaveValue("")
+  })
+
+  it("submits the form with correct values", async () => {
+    const mockSubmit = jest.fn()
+    render(<MovieForm onSubmit={mockSubmit} />)
+
+    // Fill out the form
+    await user.type(screen.getByLabelText(/title/i), "Test Movie")
+
+    // For date input
+    const dateInput = screen.getByLabelText(/release date/i)
+    await user.type(dateInput, "2023-05-10")
+
+    await user.type(screen.getByLabelText(/movie url/i), "https://test.com")
+    await user.type(screen.getByLabelText(/rating/i), "8.5")
+
+    // For select dropdown
+    const genreSelect = screen.getByLabelText(/genre/i)
+    await user.selectOptions(genreSelect, genres[0])
+
+    await user.type(screen.getByLabelText(/runtime/i), "120")
+    await user.type(screen.getByLabelText(/overview/i), "Test overview")
+
+    // Submit the form
+    const submitButton = screen.getByText(/submit/i)
+    await user.click(submitButton)
+
+    // Check if onSubmit was called
+    expect(mockSubmit).toHaveBeenCalled()
   })
 })

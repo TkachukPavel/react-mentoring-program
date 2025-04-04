@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Dialog } from "@/components/Dialog"
 import { fn } from "@storybook/test"
 import { useState } from "react"
+import { MovieForm } from "@/components/MovieForm"
 
 const meta = {
   title: "Components/Dialog",
@@ -88,6 +89,34 @@ export const DeleteMovieDialog: Story = {
           confirm
         </button>
       </div>
+    </Template>
+  ),
+}
+
+export const AddMovieDialog: Story = {
+  args: {
+    title: "Add Movie",
+  },
+  render: (args) => (
+    <Template {...args}>
+      <MovieForm
+        onSubmit={() => {}}
+        className="mt-9"
+      />
+    </Template>
+  ),
+}
+
+export const EditMovieDialog: Story = {
+  args: {
+    title: "Edit Movie",
+  },
+  render: (args) => (
+    <Template {...args}>
+      <MovieForm
+        onSubmit={() => {}}
+        className="mt-9"
+      />
     </Template>
   ),
 }
