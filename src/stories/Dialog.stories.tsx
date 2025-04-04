@@ -81,7 +81,7 @@ export const DeleteMovieDialog: Story = {
       <div className="text-white mt-8 font-montserrat">
         Are you sure you want to delete this movie?
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end font-montserrat">
         <button
           type="button"
           onClick={args.onClose}
