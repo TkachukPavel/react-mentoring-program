@@ -1,7 +1,8 @@
 import "./App.css"
+import { MovieListPage } from "./pages/MovieListPage"
 
 function App() {
-  return <div>App To Be Made</div>
+  return <MovieListPage />
 }
 
 export default App

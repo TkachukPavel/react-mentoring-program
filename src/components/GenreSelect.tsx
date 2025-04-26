@@ -2,22 +2,22 @@ import { useState } from "react"
 import { Genre } from "@/types/genre"
 import clsx from "clsx"
 
-type Props = {
+export const GenreSelect = (props: {
   genres: Genre[]
   selectedGenre: Genre
   onSelect: (genre: Genre) => void
-}
-
-export const GenreSelect = ({ selectedGenre, onSelect, genres }: Props) => {
-  const [currentGenre, setCurrentGenre] = useState<Genre>(selectedGenre)
+  className?: string
+}) => {
+  const [currentGenre, setCurrentGenre] = useState<Genre>(props.selectedGenre)
 
   const handleSelect = (genre: Genre) => {
     setCurrentGenre(genre)
-    onSelect(genre)
+    props.onSelect(genre)
   }
   return (
-    <div className="flex flex-row border-b-2 border-neutral-700">
-      {genres.map((genre) => (
+    <div
+      className={`flex flex-row border-b-2 border-neutral-700 font-montserrat ${props.className}`}>
+      {props.genres.map((genre) => (
         <button
           type="button"
           className={clsx(
@@ -27,8 +27,7 @@ export const GenreSelect = ({ selectedGenre, onSelect, genres }: Props) => {
             },
           )}
           key={genre}
-          onClick={() => handleSelect(genre)}
-        >
+          onClick={() => handleSelect(genre)}>
           {genre}
         </button>
       ))}
