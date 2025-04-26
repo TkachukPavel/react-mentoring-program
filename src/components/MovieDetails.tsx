@@ -23,7 +23,11 @@ export const MovieDetails = (props: {
             {props.movieName}
           </div>
           <div className="ml-5 rounded-full border border-white p-3">
-            {props.rating}
+            {new Intl.NumberFormat("en-US", {
+              style: "decimal",
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            }).format(props.rating)}
           </div>
         </div>
         <div className="mt-2 text-xs font-normal opacity-50">

@@ -8,7 +8,7 @@ import { genres } from "@/data/genres"
 import { Genre } from "@/types/genre"
 import { Movie } from "@/types/movie"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CiSearch } from "react-icons/ci"
 export const MovieListPage = () => {
   const [query, setQuery] = useState<string>("")
@@ -17,6 +17,15 @@ export const MovieListPage = () => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [totalMovies, setTotalMovies] = useState<number>(0)
+  const movieDescriptionRef = useRef<HTMLDivElement>(null)
+
+  const handleMovieSelect = (movie: Movie) => {
+    setSelectedMovie(movie)
+    movieDescriptionRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
 
   useEffect(() => {
     // Create a new controller for each effect execution (parameter change)
@@ -51,7 +60,9 @@ export const MovieListPage = () => {
     <>
       <div className="bg-neutral-800 font-montserrat min-h-screen pb-8">
         {selectedMovie ? (
-          <div className="mx-16">
+          <div
+            className="mx-16"
+            ref={movieDescriptionRef}>
             <div className="flex justify-between pt-9 items-center">
               {logoComponent}
 
@@ -130,7 +141,7 @@ export const MovieListPage = () => {
                 genres={movie.genres}
                 releaseYear={new Date(movie.release_date!).getFullYear()}
                 className="hover:scale-105 transition-transform duration-200"
-                onClick={() => setSelectedMovie(movie)}
+                onClick={() => handleMovieSelect(movie)}
               />
             ))}
           </div>
