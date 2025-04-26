@@ -22,8 +22,10 @@ export const Menu = ({ menuItems, className }: Props) => {
           <button
             type="button"
             className="cursor-pointer rounded-full bg-neutral-800 p-2 text-[10px] text-white"
-            onClick={() => setIsOpen(true)}
-          >
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsOpen(true)
+            }}>
             <FaEllipsisV title="open menu" />
           </button>
         ) : (
@@ -32,8 +34,10 @@ export const Menu = ({ menuItems, className }: Props) => {
               <button
                 type="button"
                 className="mr-2 ml-auto cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsOpen(false)
+                }}>
                 <FaXmark title="close menu" />
               </button>
             </div>
@@ -42,11 +46,11 @@ export const Menu = ({ menuItems, className }: Props) => {
                 key={item.label}
                 type="button"
                 className="w-full cursor-pointer py-1 pl-4 text-left hover:bg-red-400"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation()
                   item.action()
                   setIsOpen(false)
-                }}
-              >
+                }}>
                 {item.label}
               </button>
             ))}
