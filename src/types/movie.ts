@@ -1,9 +1,21 @@
 export type Movie = {
+  id: number
   title: string
-  releaseDate: Date
-  movieUrl: string
-  rating: number
-  genre: string
-  runtime: number
+  tagline?: string
+  vote_average?: number
+  vote_count?: number
+  release_date?: string
+  poster_path: string
   overview: string
+  budget?: number
+  revenue?: number
+  runtime: number
+  genres: string[]
+}
+
+export type MovieResponse = {
+  data: Movie[]
+  totalAmount: number
+  offset: number
+  limit: number
 }

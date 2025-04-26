@@ -2,7 +2,7 @@ import { useClickOutside } from "@/hooks/useClickOutside"
 import { useState } from "react"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 
-type SortOptions = "Release Date" | "Title"
+export type SortOptions = "release_date" | "title"
 
 export const SortControl = (props: {
   selection: SortOptions
@@ -57,15 +57,15 @@ export const SortControl = (props: {
         {isOpen && (
           <ul
             role="listbox"
-            className="absolute right-0 mt-2 w-full list-none rounded! bg-neutral-800 py-1 text-white">
+            className="absolute z-10 right-0 mt-2 w-full list-none rounded! bg-neutral-800 py-1 text-white">
             <li
               className="cursor-pointer px-4 hover:bg-red-400"
-              onClick={() => onOptionClick("Release Date")}>
+              onClick={() => onOptionClick("release_date")}>
               Release Date
             </li>
             <li
               className="cursor-pointer px-4 hover:bg-red-400"
-              onClick={() => onOptionClick("Title")}>
+              onClick={() => onOptionClick("title")}>
               Title
             </li>
           </ul>
