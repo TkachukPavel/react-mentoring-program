@@ -13,9 +13,11 @@ export type Movie = {
   genres: string[]
 }
 
-export type MovieResponse = {
+export type MoviesResponse = {
   data: Movie[]
   totalAmount: number
   offset: number
   limit: number
 }
+
+export type MovieResponse = Movie
