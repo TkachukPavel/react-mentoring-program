@@ -21,7 +21,7 @@ export const MovieTile = (props: {
       <img
         src={props.imageUrl}
         alt={props.movieName}
-        className="h-96 w-64 text-white "
+        className="h-96 w-64 text-white bg-neutral-700 "
       />
       {isTileHover && (
         <Menu
