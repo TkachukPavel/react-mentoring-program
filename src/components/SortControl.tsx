@@ -24,6 +24,7 @@ export const SortControl = (props: {
 
   return (
     <div
+      data-testid="sort-control"
       className="flex text-sm"
       ref={wrapperRef}>
       <label

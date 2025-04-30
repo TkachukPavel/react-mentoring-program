@@ -16,6 +16,7 @@ export const GenreSelect = (props: {
   }
   return (
     <div
+      data-testid="genre-select"
       className={`flex flex-row border-b-2 border-neutral-700 font-montserrat ${props.className}`}>
       {props.genres.map((genre) => (
         <button

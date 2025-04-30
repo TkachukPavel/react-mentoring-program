@@ -9,8 +9,11 @@ export const SearchForm = (props: {
   const [query, setQuery] = useState(props.initialQuery)
 
   return (
-    <div className={`flex flex-row ${props.className}`}>
+    <div
+      data-testid="search-form"
+      className={`flex flex-row ${props.className}`}>
       <input
+        data-testid="search-input"
         className="mr-3 w-3xl rounded bg-neutral-800 px-4 py-4 font-montserrat text-white opacity-90"
         aria-label="Search"
         type="text"
@@ -22,6 +25,7 @@ export const SearchForm = (props: {
         onChange={(e) => setQuery(e.target.value)}
       />
       <button
+        data-testid="search-button"
         type="button"
         onClick={() => props.onSearch(query)}
         className="ml-0.5 rounded bg-red-400 px-[4rem] py-4 text-white uppercase outline-0 hover:cursor-pointer hover:bg-red-500 focus-visible:outline-0">

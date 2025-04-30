@@ -2,6 +2,7 @@ import { getMovie } from "@/api/getMovie"
 import { LogoComponent } from "@/components/LogoComponent"
 import { MovieDetails } from "@/components/MovieDetails"
 import { Movie } from "@/types/movie"
+import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { CiSearch } from "react-icons/ci"
 import { useParams, useNavigate, useSearchParams } from "react-router-dom"
@@ -21,7 +22,7 @@ export const MovieDetailsView = () => {
     response
       .then((movie) => setSelectedMovie(movie))
       .catch((e) => {
-        if (e.isCancel()) return
+        if (axios.isCancel(e)) return
 
         console.log("Error while fetching a movie")
       })

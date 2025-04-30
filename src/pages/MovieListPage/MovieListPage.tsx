@@ -77,11 +77,15 @@ export const MovieListPage = () => {
             />
           </div>
 
-          <div className="text-white mt-6">
+          <div
+            className="text-white mt-6"
+            data-testid="total-movies">
             <span className="font-bold">{totalMovies}</span> movie(s) found
           </div>
 
-          <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-7">
+          <div
+            className="grid lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-7"
+            data-testid="movie-list">
             {movies.map((movie) => (
               <MovieTile
                 key={movie.id}

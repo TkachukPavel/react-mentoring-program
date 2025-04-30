@@ -1,0 +1,45 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Fixture Movie 1",
+      "tagline": "An amazing fixture movie",
+      "vote_average": 8.5,
+      "vote_count": 1500,
+      "release_date": "2024-01-15",
+      "poster_path": "https://example.com/poster1.jpg",
+      "overview": "This is the overview for the first fixture movie. It tells a compelling story.",
+      "budget": 100000000,
+      "revenue": 500000000,
+      "runtime": 120,
+      "genres": ["Action", "Adventure", "Sci-Fi"]
+    },
+    {
+      "id": 2,
+      "title": "Fixture Movie 2: The Sequel",
+      "poster_path": "https://example.com/poster2.jpg",
+      "overview": "The second fixture movie continues the epic saga.",
+      "runtime": 135,
+      "genres": ["Drama", "Thriller"]
+    },
+    {
+      "id": 3,
+      "title": "Fixture Movie 3",
+      "release_date": "2025-03-10",
+      "poster_path": "https://example.com/poster3.jpg",
+      "overview": "A heartwarming tale for the whole family.",
+      "runtime": 95,
+      "genres": ["Animation", "Family", "Comedy"]
+    },
+    {
+      "id": 4,
+      "title": "abc",
+      "release_date": "2023-05-20",
+      "poster_path": "https://example.com/poster4.jpg",
+      "overview": "A test movie with a simple title for e2e testing.",
+      "runtime": 110,
+      "genres": ["Comedy", "Drama"]
+    }
+  ],
+  "totalAmount": 4
+}

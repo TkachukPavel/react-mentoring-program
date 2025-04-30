@@ -14,6 +14,7 @@ export const MovieTile = (props: {
 
   return (
     <div
+      data-testid="movie-tile"
       className={`relative flex w-64 flex-col items-center font-montserrat cursor-pointer ${props.className}`}
       onClick={props.onClick}
       onMouseOver={() => setIsTileHover(true)}
