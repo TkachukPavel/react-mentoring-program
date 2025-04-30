@@ -12,6 +12,17 @@ export const SortControl = (props: {
     props.selection,
   )
 
+  const displayOption = (option: SortOptions) => {
+    switch (option) {
+      case "release_date":
+        return "Release Date"
+      case "title":
+        return "Title"
+      default:
+        return option
+    }
+  }
+
   const [isOpen, setIsOpen] = useState(false)
 
   const wrapperRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
@@ -40,7 +51,7 @@ export const SortControl = (props: {
             id="sort-control"
             type="button"
             className="ml-6 min-w-24 cursor-pointer text-right text-white uppercase"
-            value={currentSelection}
+            value={displayOption(currentSelection)}
           />
           {isOpen ? (
             <FaChevronUp
@@ -62,12 +73,12 @@ export const SortControl = (props: {
             <li
               className="cursor-pointer px-4 hover:bg-red-400"
               onClick={() => onOptionClick("release_date")}>
-              Release Date
+              {displayOption("release_date")}
             </li>
             <li
               className="cursor-pointer px-4 hover:bg-red-400"
               onClick={() => onOptionClick("title")}>
-              Title
+              {displayOption("title")}
             </li>
           </ul>
         )}

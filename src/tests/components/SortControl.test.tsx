@@ -13,7 +13,7 @@ describe("SortControl", () => {
     // Arrange
     render(
       <SortControl
-        selection="Release Date"
+        selection="release_date"
         onSelectionChange={jest.fn()}
       />,
     )
@@ -27,7 +27,7 @@ describe("SortControl", () => {
     // Arrange
     render(
       <SortControl
-        selection="Release Date"
+        selection="release_date"
         onSelectionChange={jest.fn()}
       />,
     )
@@ -49,7 +49,7 @@ describe("SortControl", () => {
     const onSelectionChange = jest.fn()
     render(
       <SortControl
-        selection="Release Date"
+        selection="release_date"
         onSelectionChange={onSelectionChange}
       />,
     )
@@ -59,14 +59,14 @@ describe("SortControl", () => {
     await user.click(screen.getByText("Title"))
 
     // Assert
-    expect(onSelectionChange).toHaveBeenCalledWith("Title")
+    expect(onSelectionChange).toHaveBeenCalledWith("title")
   })
 
   it("closes dropdown after selection", async () => {
     // Arrange
     render(
       <SortControl
-        selection="Release Date"
+        selection="release_date"
         onSelectionChange={jest.fn()}
       />,
     )
@@ -83,7 +83,7 @@ describe("SortControl", () => {
     // Arrange
     render(
       <SortControl
-        selection="Release Date"
+        selection="release_date"
         onSelectionChange={jest.fn()}
       />,
     )
