@@ -24,4 +24,8 @@ describe("formatDuration", () => {
   test("should format large durations correctly", () => {
     expect(formatDuration(543)).toBe("9h 3m")
   })
+
+  test("returns empty string if duration is  undefined", () => {
+    expect(formatDuration(undefined)).toBe("")
+  })
 })

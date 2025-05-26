@@ -18,8 +18,6 @@ export const SortControl = (props: {
         return "Release Date"
       case "title":
         return "Title"
-      default:
-        return option
     }
   }
 
