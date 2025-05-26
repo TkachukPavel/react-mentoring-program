@@ -11,17 +11,13 @@ describe("MovieTile", () => {
     user = userEvent.setup({ skipHover: true })
   })
 
-  const mockProps = {
-    movie,
-
-    onClick: jest.fn(),
-  }
-
   it("renders with correct props", () => {
     render(
-      <BrowserRouter>
-        <MovieTile {...mockProps} />
-      </BrowserRouter>,
+      <MovieTile
+        movie={movie}
+        onClick={mockProps.onClick}
+      />,
+      { wrapper: BrowserRouter },
     )
 
     // Check if image is rendered with correct src and alt
@@ -103,3 +99,7 @@ describe("MovieTile", () => {
     }
   })
 })
+const mockProps = {
+  movie,
+  onClick: jest.fn(),
+}
