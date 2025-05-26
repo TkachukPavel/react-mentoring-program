@@ -89,10 +89,7 @@ export const MovieListPage = () => {
             {movies.map((movie) => (
               <MovieTile
                 key={movie.id}
-                imageUrl={movie.poster_path}
-                movieName={movie.title}
-                genres={movie.genres}
-                releaseYear={new Date(movie.release_date!).getFullYear()}
+                movie={movie}
                 className="hover:scale-105 transition-transform duration-200"
                 onClick={() =>
                   naviagate({

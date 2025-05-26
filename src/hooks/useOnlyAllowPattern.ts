@@ -1,24 +1,24 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
-export const useOnlyAllowPattern = (
-  inputRef: React.RefObject<HTMLInputElement | null>,
-  pattern: RegExp,
-) => {
+export const useOnlyAllowPattern = (pattern: RegExp) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
-    if (!inputRef.current) return
+    const el = inputRef.current
+    if (!el) return
 
     const onKeyPress = (e: KeyboardEvent) => {
-      if (!inputRef.current) return
+      if (pattern.test(el.value + e.key)) return
 
-      if (!pattern.test(inputRef.current.value + e.key)) {
-        e.preventDefault()
-      }
+      e.preventDefault()
     }
 
-    inputRef.current.addEventListener("keypress", onKeyPress)
+    el.addEventListener("keypress", onKeyPress)
 
     return () => {
-      inputRef.current?.removeEventListener("keypress", onKeyPress)
+      el.removeEventListener("keypress", onKeyPress)
     }
-  }, [])
+  }, [pattern])
+
+  return inputRef
 }

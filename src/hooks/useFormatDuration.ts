@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
-export const useFormattedInput = (
-  inputRef: React.RefObject<HTMLInputElement | null>,
-  formatter: (v: string) => string,
-) => {
+export const useFormattedInput = (formatter: (v: string) => string) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState("")
 
@@ -12,20 +10,22 @@ export const useFormattedInput = (
   useEffect(() => {
     if (!inputRef.current) return
 
+    const el = inputRef.current
+
     setValue(inputRef.current.value)
     const onFocus = () => setIsFocused(true)
     const onBlur = () => setIsFocused(false)
     const onChange: EventListener = () =>
       setValue(inputRef.current?.value ?? "")
 
-    inputRef.current.addEventListener("focus", onFocus)
-    inputRef.current.addEventListener("change", onChange)
-    inputRef.current.addEventListener("blur", onBlur)
+    el.addEventListener("focus", onFocus)
+    el.addEventListener("change", onChange)
+    el.addEventListener("blur", onBlur)
 
     return () => {
-      inputRef.current?.removeEventListener("focus", onFocus)
-      inputRef.current?.removeEventListener("change", onChange)
-      inputRef.current?.removeEventListener("blur", onBlur)
+      el.removeEventListener("focus", onFocus)
+      el.removeEventListener("change", onChange)
+      el.removeEventListener("blur", onBlur)
     }
   }, [])
 
@@ -33,5 +33,7 @@ export const useFormattedInput = (
     if (!inputRef.current) return
 
     inputRef.current.value = isFocused ? value : formattedValue
-  }, [isFocused, value])
+  }, [formattedValue, isFocused, value])
+
+  return [inputRef, formattedValue, value] as const
 }

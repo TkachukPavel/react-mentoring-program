@@ -21,3 +21,7 @@ export type MoviesResponse = {
 }
 
 export type MovieResponse = Movie
+
+export type MovieLoaderData = {
+  movie: MovieResponse
+}

@@ -26,14 +26,14 @@ type Story = StoryObj<typeof SortControl>
 
 export const Default: Story = {
   args: {
-    selection: "Release Date",
+    selection: "release_date",
     onSelectionChange: fn(),
   },
 }
 
 export const SelectedTitle: Story = {
   args: {
-    selection: "Title",
+    selection: "title",
     onSelectionChange: fn(),
   },
 }

@@ -1,6 +1,8 @@
 import userEvent, { UserEvent } from "@testing-library/user-event"
 import { fireEvent, render, screen } from "@testing-library/react"
 import { MovieTile } from "@/components/MovieTile"
+import { movie } from "@/mocks/movie.mock"
+import { BrowserRouter } from "react-router-dom"
 
 describe("MovieTile", () => {
   let user: UserEvent
@@ -10,33 +12,37 @@ describe("MovieTile", () => {
   })
 
   const mockProps = {
-    imageUrl: "https://example.com/image.jpg",
-    movieName: "Test Movie",
-    releaseYear: 2023,
-    genres: ["Action", "Drama"],
+    movie,
+
     onClick: jest.fn(),
   }
 
   it("renders with correct props", () => {
-    render(<MovieTile {...mockProps} />)
+    render(
+      <BrowserRouter>
+        <MovieTile {...mockProps} />
+      </BrowserRouter>,
+    )
 
     // Check if image is rendered with correct src and alt
-    const image = screen.getByAltText("Test Movie")
+    const image = screen.getByAltText(movie.title)
     expect(image).toBeInTheDocument()
-    expect(image.getAttribute("src")).toBe("https://example.com/image.jpg")
+    expect(image.getAttribute("src")).toBe(movie.poster_path)
 
     // Check if movie name is displayed
-    expect(screen.getByText("Test Movie")).toBeInTheDocument()
+    expect(screen.getByText(movie.title)).toBeInTheDocument()
 
     // Check if release year is displayed
-    expect(screen.getByText("2023")).toBeInTheDocument()
+    expect(
+      screen.getByText(new Date(movie.release_date).getFullYear()),
+    ).toBeInTheDocument()
 
     // Check if genres are displayed
-    expect(screen.getByText("Action, Drama")).toBeInTheDocument()
+    expect(screen.getByText(movie.genres.join(", "))).toBeInTheDocument()
   })
 
   it("calls onClick when clicked", async () => {
-    render(<MovieTile {...mockProps} />)
+    render(<MovieTile {...mockProps} />, { wrapper: BrowserRouter })
 
     // Find the main container div and click it
     const container = screen.getByRole("img")
@@ -48,27 +54,36 @@ describe("MovieTile", () => {
   })
 
   it("handles movies with many genres", () => {
+    const genres = [
+      "Action",
+      "Drama",
+      "Comedy",
+      "Thriller",
+      "Romance",
+      "Sci-Fi",
+    ]
     const manyGenresProps = {
       ...mockProps,
-      genres: ["Action", "Drama", "Comedy", "Thriller", "Romance", "Sci-Fi"],
+      movie: {
+        ...mockProps.movie,
+        genres,
+      },
     }
 
-    render(<MovieTile {...manyGenresProps} />)
+    render(<MovieTile {...manyGenresProps} />, { wrapper: BrowserRouter })
 
     // Check if all genres are displayed properly
-    expect(
-      screen.getByText("Action, Drama, Comedy, Thriller, Romance, Sci-Fi"),
-    ).toBeInTheDocument()
+    expect(screen.getByText(genres.join(", "))).toBeInTheDocument()
   })
 
   it("shows menu on hover and hides on mouseleave", async () => {
-    render(<MovieTile {...mockProps} />)
+    render(<MovieTile {...mockProps} />, { wrapper: BrowserRouter })
 
     // Initially menu should not be present
     expect(screen.queryByText("Edit")).not.toBeInTheDocument()
     expect(screen.queryByText("Delete")).not.toBeInTheDocument()
 
-    const movieTile = screen.getByAltText("Test Movie").closest("div")
+    const movieTile = screen.getByAltText(movie.title).closest("div")
     expect(movieTile).not.toBeNull()
 
     if (movieTile) {

@@ -14,13 +14,13 @@ describe("MovieForm", () => {
     render(<MovieForm onSubmit={() => {}} />)
 
     // Check for all the labels
-    expect(screen.getByText(/title/i)).toBeInTheDocument()
-    expect(screen.getByText(/release date/i)).toBeInTheDocument()
-    expect(screen.getByText(/movie url/i)).toBeInTheDocument()
-    expect(screen.getByText(/rating/i)).toBeInTheDocument()
-    expect(screen.getByText(/genre/i)).toBeInTheDocument()
-    expect(screen.getByText(/runtime/i)).toBeInTheDocument()
-    expect(screen.getByText(/overview/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/title/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/release date/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/movie url/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/rating/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/genre/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/runtime/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/overview/i)).toBeInTheDocument()
   })
 
   it("renders inputs with correct placeholders", () => {
@@ -44,10 +44,9 @@ describe("MovieForm", () => {
   it("accepts input in the title field", async () => {
     render(<MovieForm onSubmit={() => {}} />)
 
-    const titleInput = document.getElementById("title") as HTMLInputElement
-    await user.type(titleInput, "Test Movie Title")
+    await user.type(screen.getByLabelText(/title/i), "Test")
 
-    expect(titleInput.value).toBe("Test Movie Title")
+    expect(screen.getByLabelText(/title/i)).toHaveValue("Test")
   })
 
   it("accepts input in the movie URL field", async () => {
@@ -55,11 +54,11 @@ describe("MovieForm", () => {
 
     await user.type(
       screen.getByLabelText(/movie url/i),
-      "https://example.com/movie",
+      "https://example.com/movie1",
     )
 
     expect(screen.getByLabelText(/movie url/i)).toHaveValue(
-      "https://example.com/movie",
+      "https://example.com/movie1",
     )
   })
 

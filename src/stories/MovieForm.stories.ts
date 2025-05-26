@@ -1,4 +1,5 @@
 import { MovieForm } from "@/components/MovieForm"
+import { movie } from "@/mocks/movie.mock"
 import { Meta, StoryObj } from "@storybook/react"
 
 const meta: Meta<typeof MovieForm> = {
@@ -23,14 +24,10 @@ export default meta
 
 type Story = StoryObj<typeof MovieForm>
 
-export const AddMode: Story = {
-  args: {
-    mode: "add",
-  },
-}
+export const AddMode: Story = {}
 
 export const EditMode: Story = {
   args: {
-    mode: "edit",
+    movie,
   },
 }

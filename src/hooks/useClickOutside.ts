@@ -6,17 +6,19 @@ export const useClickOutside = <T extends HTMLElement>(
   const elRef = useRef<T>(null)
 
   useEffect(() => {
+    const el = elRef.current
+    if (!el) return
     const handleClickOutside = (event: MouseEvent) => {
-      if (elRef.current && !elRef.current.contains(event.target as Node)) {
-        fn(event)
-      }
+      if (el.contains(event.target as Node)) return
+
+      fn(event)
     }
 
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [])
+  }, [fn])
 
   return elRef
 }

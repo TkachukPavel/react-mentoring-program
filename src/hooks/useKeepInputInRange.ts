@@ -1,44 +1,43 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
-type Config = {
+export const useKeepInputInRange = (config: {
   max?: number
   min?: number
   fractionDigits?: number
-}
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { max, min, fractionDigits = 2 } = config
 
-export const useKeepInputInRange = (
-  inputRef: React.RefObject<HTMLInputElement | null>,
-  { max, min, fractionDigits }: Config,
-) => {
   useEffect(() => {
-    if (!inputRef.current) return
+    const el = inputRef.current
+    if (!el) return
 
     const onBlur = () => {
-      if (!inputRef.current) return
+      let value = parseFloat(el.value)
 
-      let value = parseFloat(inputRef.current.value)
+      if (!value && value !== 0) return
 
-      if (!value) return
-
-      if (max && value > max) {
+      if (max !== undefined && value > max) {
         value = max
       }
 
-      if (min && value < min) {
+      if (min !== undefined && value < min) {
         value = min
       }
 
-      inputRef.current.value = Intl.NumberFormat("en-US", {
+      el.value = Intl.NumberFormat("en-US", {
         maximumFractionDigits: fractionDigits,
       }).format(value)
     }
 
     onBlur()
 
-    inputRef.current.addEventListener("blur", onBlur)
+    el.addEventListener("blur", onBlur)
 
     return () => {
-      inputRef.current?.removeEventListener("blur", onBlur)
+      el.removeEventListener("blur", onBlur)
     }
-  }, [])
+  }, [fractionDigits, max, min])
+
+  return inputRef
 }

@@ -4,26 +4,20 @@ import { useKeepInputInRange } from "@/hooks/useKeepInputInRange"
 import { useOnlyAllowPattern } from "@/hooks/useOnlyAllowPattern"
 import { Movie } from "@/types/movie"
 import formatDuration from "@/utils/formatDuration"
-import { useRef } from "react"
-
-const labelClass = "uppercase  text-red-400 text-xs font-semibold opacity-80"
-const inputClass =
-  "mt-2.5 rounded-none border-none! bg-neutral-700 p-3.5 font-montserrat text-white opacity-80"
-
-const formatRuntime = (v: string) => (v === "" ? "" : formatDuration(+v))
+import { ChangeEvent, HTMLProps } from "react"
+import { useController, UseControllerProps, useForm } from "react-hook-form"
 
 export const MovieForm = (props: {
   movie?: Movie
   onSubmit: (movie: Movie) => void
   className?: string
 }) => {
-  const runtimeInputRef = useRef<HTMLInputElement>(null)
-  useOnlyAllowPattern(runtimeInputRef, /^\d*$/)
-  useFormattedInput(runtimeInputRef, formatRuntime)
-
-  const ratingInputRef = useRef<HTMLInputElement>(null)
-  useOnlyAllowPattern(ratingInputRef, /^((\d*)|(\d+\.\d*))$/)
-  useKeepInputInRange(ratingInputRef, { max: 10, min: 0, fractionDigits: 1 })
+  const {
+    register,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<MovieFormValues>({ values: props.movie, mode: "onBlur" })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -37,72 +31,60 @@ export const MovieForm = (props: {
       className={`font-montserrat min-w-[820px] ${props.className}`}
       onSubmit={handleSubmit}>
       <div className="w-full grid-cols-3 gap-6 sm:grid">
-        <div className="col-span-2 mt-4 flex flex-col first:mt-0">
-          <label
-            htmlFor="title"
-            className={labelClass}>
-            Title
-          </label>
-          <input
+        <Field className="col-span-2">
+          <Label htmlFor="title">Title</Label>
+          <Input
             type="text"
             id="title"
-            name="title"
-            className={inputClass}
+            {...register("title", {
+              required: { value: true, message: "Title is required" },
+            })}
           />
-        </div>
-        <div className="mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="releaseDate"
-            className={labelClass}>
-            release Date
-          </label>
-          <input
+          <ErrorMessage message={errors.title?.message} />
+        </Field>
+
+        <Field>
+          <Label htmlFor="release_date">release Date</Label>
+          <Input
             type="date"
-            id="releaseDate"
-            name="releaseDate"
+            id="release_date"
             placeholder="Select Date"
-            className={inputClass}
+            {...register("release_date")}
           />
-        </div>
-        <div className="col-span-2 mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="movieUrl"
-            className={`${labelClass} `}>
-            movie Url
-          </label>
-          <input
+        </Field>
+
+        <Field className="col-span-2 ">
+          <Label htmlFor="poster_path">movie Url</Label>
+          <Input
             type="text"
-            id="movieUrl"
-            name="movieUrl"
+            id="poster_path"
             placeholder="https://"
-            className={inputClass}
+            {...register("poster_path", {
+              required: true,
+              pattern: {
+                value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i,
+                message: "Invalid URL",
+              },
+            })}
           />
-        </div>
-        <div className="mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="rating"
-            className={labelClass}>
-            rating
-          </label>
-          <input
-            ref={ratingInputRef}
-            type="text"
-            id="rating"
-            name="rating"
-            placeholder="7.8"
-            className={inputClass}
+        </Field>
+
+        <Field>
+          <Label htmlFor="vote_average">rating</Label>
+          <RatingInput
+            control={control}
+            name={"vote_average"}
           />
-        </div>
-        <div className="col-span-2 mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="genre"
-            className={labelClass}>
-            genre
-          </label>
-          <select
-            id="genre"
-            name="genre"
-            className={inputClass}>
+        </Field>
+
+        <Field className="col-span-2">
+          <Label htmlFor="genres">genre</Label>
+          <Select
+            id="genres"
+            {...register("genres", {
+              setValueAs: (v) => [v],
+              required: true,
+            })}>
             {genres.map((genre) => (
               <option
                 key={genre}
@@ -110,50 +92,174 @@ export const MovieForm = (props: {
                 {genre}
               </option>
             ))}
-          </select>
-        </div>
-        <div className="mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="runtime"
-            className={labelClass}>
-            runtime
-          </label>
-          <input
-            type="text"
-            id="runtime"
-            name="runtime"
-            ref={runtimeInputRef}
-            placeholder="minutes"
-            className={inputClass}
+          </Select>
+        </Field>
+
+        <Field>
+          <Label htmlFor="runtime">runtime</Label>
+          <RuntimeInput
+            control={control}
+            name={"runtime"}
+            rules={{ required: true }}
           />
-        </div>
-        <div className="col-span-3 mt-4 flex flex-col sm:mt-0">
-          <label
-            htmlFor="overview"
-            className={labelClass}>
-            overview
-          </label>
-          <textarea
+        </Field>
+
+        <Field className="col-span-3">
+          <Label htmlFor="overview">overview</Label>
+          <Textarea
             id="overview"
-            name="overview"
-            className={inputClass}
+            {...register("overview", {
+              required: true,
+            })}
           />
-        </div>
+        </Field>
       </div>
 
       <div className="w-full flex justify-end mt-12">
-        <button
+        <Button
           type="reset"
-          className="uppercase text-red-400 border-red-400 border cursor-pointer py-3 px-12 rounded bg-transparent">
+          className=" text-red-400 border-red-400 border bg-transparent">
           reset
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="submit"
-          className="uppercase text-white bg-red-400 rounded py-3 px-12 ml-3 cursor-pointer">
+          className=" text-white bg-red-400  ml-3 ">
           submit
-        </button>
+        </Button>
       </div>
+
+      <div className="mt-2 text-white">{JSON.stringify(watch(), null, 3)}</div>
     </form>
+  )
+}
+
+//* HELPERS
+//
+//
+//
+// **/
+
+type MovieFormValues = Pick<
+  Movie,
+  | "title"
+  | "genres"
+  | "release_date"
+  | "vote_average"
+  | "runtime"
+  | "overview"
+  | "poster_path"
+>
+
+const ErrorMessage = (props: { message?: string }) => {
+  if (!props.message) {
+    return null
+  }
+  return <div className="text-red-500 text-xs mt-1">{props.message}</div>
+}
+
+const Button = (
+  props: HTMLProps<HTMLButtonElement> & { type: "reset" | "submit" | "button" },
+) => (
+  <button
+    {...props}
+    className={`uppercase rounded py-3 px-12 cursor-pointer ${props.className}`}>
+    {props.children}
+  </button>
+)
+
+const Label = (props: HTMLProps<HTMLLabelElement>) => (
+  <label
+    {...props}
+    className={`uppercase text-red-400 text-xs font-semibold opacity-80 ${props.className}`}>
+    {props.children}
+  </label>
+)
+
+const Input = (props: HTMLProps<HTMLInputElement>) => (
+  <input
+    {...props}
+    className={`mt-2.5 rounded-none border-none! bg-neutral-700 p-3.5 font-montserrat text-white opacity-80 ${props.className}`}
+    data-testid={props.id}
+  />
+)
+
+const Field = (props: HTMLProps<HTMLDivElement>) => (
+  <div
+    {...props}
+    className={`mt-4 flex flex-col sm:mt-0 ${props.className}`}>
+    {props.children}
+  </div>
+)
+
+const Select = (props: HTMLProps<HTMLSelectElement>) => (
+  <select
+    {...props}
+    className={`mt-2.5 rounded-none border-none! bg-neutral-700 p-3.5 font-montserrat text-white opacity-80 ${props.className}`}
+    data-testid={props.id}>
+    {props.children}
+  </select>
+)
+
+const Textarea = (props: HTMLProps<HTMLTextAreaElement>) => (
+  <textarea
+    {...props}
+    className={`mt-2.5 rounded-none border-none! bg-neutral-700 p-3.5 font-montserrat text-white opacity-80 ${props.className}`}
+    data-testid={props.id}
+  />
+)
+
+const RuntimeInput = (
+  props: HTMLProps<HTMLInputElement> & UseControllerProps<MovieFormValues>,
+) => {
+  const [inputRef] = useFormattedInput((v) => formatDuration(+v))
+  const {
+    field: { ref, onChange, value, ...rest },
+  } = useController(props)
+
+  return (
+    <Input
+      {...rest}
+      type="text"
+      id="runtime"
+      placeholder="minutes"
+      value={value || ""}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        onChange(+e.target.value || null)
+      }
+      ref={(node) => {
+        ref(node)
+        inputRef.current = node
+      }}
+    />
+  )
+}
+
+const RatingInput = (
+  props: HTMLProps<HTMLInputElement> & UseControllerProps<MovieFormValues>,
+) => {
+  const patternRef = useOnlyAllowPattern(/^((\d*)|(\d+\.\d*))$/)
+  const rangeRef = useKeepInputInRange({ min: 0, max: 10, fractionDigits: 1 })
+  const {
+    field: { ref, onBlur, onChange, ...rest },
+  } = useController(props)
+
+  return (
+    <Input
+      {...rest}
+      type="text"
+      id="vote_average"
+      placeholder="7.8"
+      onChange={onChange}
+      onBlur={(e) => {
+        onChange(+e.target.value || null)
+        onBlur()
+      }}
+      ref={(node) => {
+        ref(node)
+        patternRef.current = node
+        rangeRef.current = node
+      }}
+    />
   )
 }
