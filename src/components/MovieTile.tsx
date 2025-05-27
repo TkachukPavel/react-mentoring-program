@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { Movie } from "@/types/movie"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
+import { Movie, MovieId } from "@/types/movie"
 import { Menu } from "@/components/Menu"
+import { useDeleteMovie } from "@/api/queries"
 
 export const MovieTile = (props: {
   movie: Movie
@@ -11,8 +12,20 @@ export const MovieTile = (props: {
 }) => {
   const [isTileHover, setIsTileHover] = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const params = useParams<{ movieid?: string }>()
 
   const releaseYear = new Date(props.movie.release_date ?? 0).getFullYear()
+
+  const mutation = useDeleteMovie(() => {
+    if (parseInt(params?.movieid ?? "") === props.movie?.id) {
+      navigate(`../?${searchParams.toString()}`)
+    }
+  })
+
+  const handleDelete = (id: MovieId) => {
+    mutation.mutate(id)
+  }
 
   return (
     <div
@@ -24,11 +37,11 @@ export const MovieTile = (props: {
       <img
         src={props.movie.poster_path}
         alt={props.movie.title}
-        className="h-96 w-64 text-white bg-neutral-700 "
+        className="bg-neutral-700 w-64 h-96 text-white"
       />
       {isTileHover && (
         <Menu
-          className="absolute top-3 right-3"
+          className="top-3 right-3 absolute"
           menuItems={[
             {
               label: "Edit",
@@ -36,17 +49,17 @@ export const MovieTile = (props: {
                 navigate(`${props.movie.id}/edit`)
               },
             },
-            { label: "Delete", action: () => {} },
+            { label: "Delete", action: () => handleDelete(props.movie.id) },
           ]}
         />
       )}
-      <div className="mt-4 flex w-full max-w-full flex-row items-center justify-between text-white opacity-70">
-        <div className="text-wrap break-words">{props.movie.title}</div>
-        <div className="ml-2 rounded border border-gray-500 px-2 py-1 text-xs">
+      <div className="flex flex-row justify-between items-center opacity-70 mt-4 w-full max-w-full text-white">
+        <div className="break-words text-wrap">{props.movie.title}</div>
+        <div className="ml-2 px-2 py-1 border border-gray-500 rounded text-xs">
           {releaseYear}
         </div>
       </div>
-      <div className="mt-2 w-full text-xs text-white opacity-50">
+      <div className="opacity-50 mt-2 w-full text-white text-xs">
         {props.movie.genres.join(", ")}{" "}
       </div>
     </div>
