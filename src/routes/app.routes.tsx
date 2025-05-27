@@ -4,11 +4,10 @@ import { MovieListPage } from "@/pages/MovieListPage/MovieListPage"
 import { MovieDetailsView } from "@/pages/MovieListPage/views/MovieDetailsView"
 import { SearchFormView } from "@/pages/MovieListPage/views/SearchForm.View"
 import { createBrowserRouter, Params } from "react-router-dom"
-import { getMovie } from "@/api/getMovie" // Import the getMovie function
-import { MovieResponse } from "@/types/movie" // Import MovieResponse type
+import { getMovie } from "@/api/getMovie"
+import { MovieResponse } from "@/types/movie"
 
-// Loader function to fetch movie details
-export const movieLoader = async ({
+export const movieLoader = ({
   params,
 }: {
   params: Params<"movieid">
@@ -20,15 +19,13 @@ export const movieLoader = async ({
       statusText: "Movie ID is missing",
     })
   }
-  try {
-    const movie = await getMovie(movieId)
-    return { movie }
-  } catch (error) {
-    // Log the error for debugging
-    console.error("Failed to load movie:", error)
-    // You can customize the error response based on the error type
-    throw new Response("Error loading movie", { status: 500 })
-  }
+
+  return getMovie(movieId)
+    .then((movie) => ({ movie }))
+    .catch((error) => {
+      console.error("Failed to load movie:", error)
+      throw new Response("Error loading movie", { status: 500 })
+    })
 }
 
 export const appRoutes = createBrowserRouter([
@@ -44,7 +41,7 @@ export const appRoutes = createBrowserRouter([
         path: ":movieid",
         id: "movie",
         element: <MovieDetailsView />,
-        loader: movieLoader, // Use the movieLoader here
+        loader: movieLoader,
         children: [{ path: "edit", element: <EditMovieDialog /> }],
       },
     ],

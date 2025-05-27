@@ -4,33 +4,28 @@ import { useKeepInputInRange } from "@/hooks/useKeepInputInRange"
 import { useOnlyAllowPattern } from "@/hooks/useOnlyAllowPattern"
 import { Movie } from "@/types/movie"
 import formatDuration from "@/utils/formatDuration"
+import clsx from "clsx"
 import { ChangeEvent, HTMLProps } from "react"
 import { useController, UseControllerProps, useForm } from "react-hook-form"
 
 export const MovieForm = (props: {
   movie?: Movie
-  onSubmit: (movie: Movie) => void
+  onSubmit: (movie: MovieFormValues) => void
   className?: string
 }) => {
   const {
     register,
     control,
+    handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<MovieFormValues>({ values: props.movie, mode: "onBlur" })
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    props.onSubmit(
-      Object.fromEntries(new FormData(e.currentTarget)) as unknown as Movie,
-    )
-  }
 
   return (
     <form
       className={`font-montserrat min-w-[820px] ${props.className}`}
-      onSubmit={handleSubmit}>
-      <div className="w-full grid-cols-3 gap-6 sm:grid">
+      onSubmit={handleSubmit((v) => props.onSubmit(v))}>
+      <div className="gap-6 sm:grid grid-cols-3 w-full">
         <Field className="col-span-2">
           <Label htmlFor="title">Title</Label>
           <Input
@@ -53,20 +48,21 @@ export const MovieForm = (props: {
           />
         </Field>
 
-        <Field className="col-span-2 ">
+        <Field className="col-span-2">
           <Label htmlFor="poster_path">movie Url</Label>
           <Input
             type="text"
             id="poster_path"
             placeholder="https://"
             {...register("poster_path", {
-              required: true,
+              required: { value: true, message: "Poster URL is required" },
               pattern: {
                 value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i,
                 message: "Invalid URL",
               },
             })}
           />
+          <ErrorMessage message={errors.poster_path?.message} />
         </Field>
 
         <Field>
@@ -93,6 +89,7 @@ export const MovieForm = (props: {
               </option>
             ))}
           </Select>
+          <ErrorMessage message={errors.genres?.message} />
         </Field>
 
         <Field>
@@ -100,8 +97,11 @@ export const MovieForm = (props: {
           <RuntimeInput
             control={control}
             name={"runtime"}
-            rules={{ required: true }}
+            rules={{
+              required: { value: true, message: `Please enter runtime` },
+            }}
           />
+          <ErrorMessage message={errors.runtime?.message} />
         </Field>
 
         <Field className="col-span-3">
@@ -109,22 +109,26 @@ export const MovieForm = (props: {
           <Textarea
             id="overview"
             {...register("overview", {
-              required: true,
+              required: { value: true, message: "Overview is required" },
             })}
           />
+          <ErrorMessage message={errors.overview?.message} />
         </Field>
       </div>
 
-      <div className="w-full flex justify-end mt-12">
+      <div className="flex justify-end mt-12 w-full">
         <Button
           type="reset"
-          className=" text-red-400 border-red-400 border bg-transparent">
+          className="bg-transparent border border-red-400 text-red-400">
           reset
         </Button>
 
         <Button
           type="submit"
-          className=" text-white bg-red-400  ml-3 ">
+          disabled={!isValid}
+          className={clsx("bg-red-400 ml-3 text-white", {
+            "opacity-50 cursor-not-allowed!": !isValid,
+          })}>
           submit
         </Button>
       </div>
@@ -134,11 +138,13 @@ export const MovieForm = (props: {
   )
 }
 
-//* HELPERS
-//
-//
-//
-// **/
+/*
+ *--------------------------------------------------------------------
+ *
+ *  HELPERS
+ *
+ *---------------------------------------------------------------------
+ */
 
 type MovieFormValues = Pick<
   Movie,
@@ -155,7 +161,7 @@ const ErrorMessage = (props: { message?: string }) => {
   if (!props.message) {
     return null
   }
-  return <div className="text-red-500 text-xs mt-1">{props.message}</div>
+  return <div className="mt-1 text-red-500 text-xs">{props.message}</div>
 }
 
 const Button = (
@@ -212,10 +218,14 @@ const Textarea = (props: HTMLProps<HTMLTextAreaElement>) => (
 const RuntimeInput = (
   props: HTMLProps<HTMLInputElement> & UseControllerProps<MovieFormValues>,
 ) => {
-  const [inputRef] = useFormattedInput((v) => formatDuration(+v))
   const {
     field: { ref, onChange, value, ...rest },
   } = useController(props)
+
+  const [inputRef] = useFormattedInput(
+    (v) => formatDuration(!v ? undefined : +v),
+    value?.toString(),
+  )
 
   return (
     <Input
@@ -223,10 +233,10 @@ const RuntimeInput = (
       type="text"
       id="runtime"
       placeholder="minutes"
-      value={value || ""}
       onChange={(e: ChangeEvent<HTMLInputElement>) =>
         onChange(+e.target.value || null)
       }
+      value={inputRef.current?.value ?? ""}
       ref={(node) => {
         ref(node)
         inputRef.current = node

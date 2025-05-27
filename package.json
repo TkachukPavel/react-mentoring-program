@@ -21,6 +21,8 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
     "@tailwindcss/vite": "^4.0.13",
+    "@tanstack/react-query": "^5.77.2",
+    "@tanstack/react-query-devtools": "^5.77.2",
     "axios": "^1.9.0",
     "figma-api": "^2.0.2-beta",
     "focus-trap-react": "^11.0.3",
@@ -43,6 +45,7 @@
     "@storybook/react-vite": "^8.6.4",
     "@storybook/test": "^8.6.4",
     "@storybook/theming": "^8.6.12",
+    "@tanstack/eslint-plugin-query": "^5.78.0",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^16.0.0",

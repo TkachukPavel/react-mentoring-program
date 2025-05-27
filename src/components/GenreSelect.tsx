@@ -22,7 +22,7 @@ export const GenreSelect = (props: {
         <button
           type="button"
           className={clsx(
-            "mr-8 -mb-[2px] cursor-pointer border-b-2 border-b-transparent px-1 pb-4 text-sm text-white uppercase last:mr-0 hover:border-rose-400",
+            "mr-8 last:mr-0 -mb-[2px] px-1 pb-4 hover:border-rose-400 border-b-2 border-b-transparent text-white text-sm uppercase cursor-pointer",
             {
               "border-rose-400!": genre === currentGenre,
             },

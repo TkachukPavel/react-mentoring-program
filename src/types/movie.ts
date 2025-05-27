@@ -1,5 +1,7 @@
+export type MovieId = number
+
 export type Movie = {
-  id: number
+  id: MovieId
   title: string
   tagline?: string
   vote_average?: number

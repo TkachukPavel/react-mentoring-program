@@ -1,5 +1,5 @@
 export default function formatDuration(duration?: number) {
-  if (duration === undefined || duration === null) {
+  if (!Number.isSafeInteger(duration) || duration === undefined) {
     return ""
   }
 
