@@ -17,14 +17,16 @@ export const MovieTile = (props: {
 
   const releaseYear = new Date(props.movie.release_date ?? 0).getFullYear()
 
-  const mutation = useDeleteMovie(() => {
-    if (parseInt(params?.movieid ?? "") === props.movie?.id) {
-      navigate(`../?${searchParams.toString()}`)
-    }
-  })
+  const mutation = useDeleteMovie()
 
   const handleDelete = (id: MovieId) => {
-    mutation.mutate(id)
+    mutation.mutate(id, {
+      onSuccess: () => {
+        if (parseInt(params?.movieid ?? "") === props.movie?.id) {
+          navigate(`../?${searchParams.toString()}`)
+        }
+      },
+    })
   }
 
   return (

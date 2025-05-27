@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 
-export const useFormattedInput = (formatter: (v: string) => string) => {
+export const useFormattedInput = (
+  formatter: (v: string) => string,
+  initValue?: string,
+) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isFocused, setIsFocused] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(initValue ?? "")
 
   const formattedValue = formatter(value)
 
@@ -12,15 +15,14 @@ export const useFormattedInput = (formatter: (v: string) => string) => {
 
     const el = inputRef.current
 
-    setValue(inputRef.current.value)
     const onFocus = () => setIsFocused(true)
     const onBlur = () => setIsFocused(false)
     const onChange: EventListener = () =>
       setValue(inputRef.current?.value ?? "")
 
     el.addEventListener("focus", onFocus)
-    el.addEventListener("change", onChange)
     el.addEventListener("blur", onBlur)
+    el.addEventListener("change", onChange)
 
     return () => {
       el.removeEventListener("focus", onFocus)
@@ -33,7 +35,7 @@ export const useFormattedInput = (formatter: (v: string) => string) => {
     if (!inputRef.current) return
 
     inputRef.current.value = isFocused ? value : formattedValue
-  }, [formattedValue, isFocused, value])
+  }, [isFocused, formattedValue, value])
 
   return [inputRef, formattedValue, value] as const
 }

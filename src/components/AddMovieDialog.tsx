@@ -6,16 +6,16 @@ import { useCreateMovie } from "@/api/queries"
 
 export const AddMovieDialog = () => {
   const navigate = useNavigate()
-  const mutation = useCreateMovie((data) => {
-    navigate(`../${data.id}`)
-  })
+  const mutation = useCreateMovie()
 
   const handleDialogClose = () => {
     navigate("../")
   }
 
   const handleFormSubmit = (movie: Partial<Movie>) => {
-    mutation.mutate(movie)
+    mutation.mutate(movie, {
+      onSuccess: ({ data }) => navigate(`../${data.id}`),
+    })
   }
   return (
     <Dialog

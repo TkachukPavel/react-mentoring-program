@@ -1,19 +1,28 @@
 import { useNavigate, useRouteLoaderData } from "react-router-dom"
 import { Dialog } from "./Dialog"
 import { MovieForm } from "./MovieForm"
-import { MovieLoaderData } from "@/types/movie"
+import { Movie, MovieLoaderData } from "@/types/movie"
+import { useUpdateMovie } from "@/api/queries"
 
 export const EditMovieDialog = () => {
   const navigate = useNavigate()
   const { movie } = useRouteLoaderData("movie") as MovieLoaderData
+  const mutation = useUpdateMovie()
+
   const handleDialogClose = () => {
     navigate("../")
   }
-  const handleFormSubmit = () => {
-    handleDialogClose()
+  const handleFormSubmit = (nextMovie: Partial<Movie>) => {
+    mutation.mutate(
+      { ...movie, ...nextMovie },
+      {
+        onSuccess: () => {
+          handleDialogClose()
+        },
+      },
+    )
   }
 
-  console.log("EditMovieDialog", movie)
   return (
     <Dialog
       title="Edit Movie"

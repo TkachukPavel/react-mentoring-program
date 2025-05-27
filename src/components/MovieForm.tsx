@@ -6,7 +6,12 @@ import { Movie } from "@/types/movie"
 import formatDuration from "@/utils/formatDuration"
 import clsx from "clsx"
 import { ChangeEvent, HTMLProps } from "react"
-import { useController, UseControllerProps, useForm } from "react-hook-form"
+import {
+  Controller,
+  useController,
+  UseControllerProps,
+  useForm,
+} from "react-hook-form"
 
 export const MovieForm = (props: {
   movie?: Movie
@@ -75,20 +80,35 @@ export const MovieForm = (props: {
 
         <Field className="col-span-2">
           <Label htmlFor="genres">genre</Label>
-          <Select
-            id="genres"
-            {...register("genres", {
-              setValueAs: (v) => [v],
-              required: true,
-            })}>
-            {genres.map((genre) => (
-              <option
-                key={genre}
-                value={genre}>
-                {genre}
-              </option>
-            ))}
-          </Select>
+          <Controller
+            control={control}
+            name="genres"
+            rules={{
+              required: { value: true, message: "Please select a genre" },
+            }}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <Select
+                {...rest}
+                id="genres"
+                value={value?.[0] ?? ""}
+                {...register("genres", {
+                  setValueAs: (v) => [v],
+                  required: true,
+                })}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                  e.target.value && onChange([e.target.value])
+                }>
+                {genres.map((genre) => (
+                  <option
+                    key={genre}
+                    value={genre}>
+                    {genre}
+                  </option>
+                ))}
+              </Select>
+            )}
+          />
+
           <ErrorMessage message={errors.genres?.message} />
         </Field>
 
